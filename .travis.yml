@@ -9,8 +9,6 @@ env:
   global:
     - NODE_VERSION=stable
 
-before_install:
-  - npm install -g yarn --cache-min 999999999
 cache:
   yarn: true
 
@@ -25,7 +23,8 @@ install:
 
   - npm install -g react-native-cli
   - npm install -g detox-cli
-  - yarn install
+  - npm install -g yarn
+  - yarn
   - cd ios
   - pod install
   - cd ..
