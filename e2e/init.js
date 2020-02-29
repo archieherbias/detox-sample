@@ -13,7 +13,23 @@ jasmine.getEnv().addReporter(adapter);
 jasmine.getEnv().addReporter(specReporter);
 
 beforeAll(async () => {
-  await detox.init(config);
+  await detox.init(config, {launchApp: false});
+
+  try {
+    await device.launchApp({
+      permissions: {notifications: 'YES', calendar: 'YES'},
+    });
+  } catch (e) {
+    console.log(
+      'It will certainly throw an exception, but lets sleep for 60000ms',
+      e,
+    );
+    await sleep(60000);
+    await device.launchApp({
+      permissions: {notifications: 'YES', calendar: 'YES'},
+    });
+    console.log('hey, sleep is over. Crossed fingers');
+  }
 }, 300000);
 
 beforeEach(async () => {
