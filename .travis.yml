@@ -20,6 +20,7 @@ install:
 
   - npm install -g react-native-cli
   - npm install -g detox-cli
+  - npm install
 
 script:
   - detox clean-framework-cache && detox build-framework-cache
