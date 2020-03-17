@@ -44,7 +44,8 @@ jobs:
       - run:
           name: Run Emulator
           background: true
-          command: export LD_LIBRARY_PATH=${ANDROID_HOME}/emulator/lib64:${ANDROID_HOME}/emulator/lib64/qt/lib && emulator64-arm -avd testEmulator -noaudio -no-boot-anim -no-window -accel auto -verbose
+          # command: export LD_LIBRARY_PATH=${ANDROID_HOME}/emulator/lib64:${ANDROID_HOME}/emulator/lib64/qt/lib && emulator64-arm -avd testEmulator -noaudio -no-boot-anim -no-window -accel auto -verbose
+          command: emulator -avd testEmulator -noaudio -no-boot-anim -no-window -accel auto -verbose
       - run:
           name: Run Detox
           command: |
