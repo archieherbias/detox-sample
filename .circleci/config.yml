@@ -41,11 +41,10 @@ jobs:
           name: Setup emulator
           command: |
             sdkmanager "system-images;android-25;google_apis;armeabi-v7a" && echo "no" | avdmanager create avd -n testEmulator -k "system-images;android-25;google_apis;armeabi-v7a"
-            echo 'skin.path = $ANDROID_HOME/skins/nexus_5' >> $HOME/.android/avd/testEmulator.avd/config.ini
       - run:
           name: Run Emulator
           background: true
-          command: emulator -avd testEmulator -noaudio -no-boot-anim -no-window -accel auto -skin Nexus_5X_API_28 -verbose
+          command: emulator -avd testEmulator -noaudio -no-boot-anim -no-window -accel auto -skin WVGA800 -verbose
       - run: detox build -c android.sim.debug
       - run: detox test -c android.sim.debug
 
