@@ -19,7 +19,7 @@ aliases:
     yarn
 
 defaults: &defaults
-  working_directory: ~/
+  working_directory: ~/detoxSample
 
 jobs:
   test-android:
