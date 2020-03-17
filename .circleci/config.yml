@@ -25,13 +25,16 @@ jobs:
   test-android:
     <<: *defaults
     docker:
-      - image: circleci/android:api-29-node
+      - image: circleci/android:api-29
     dependencies:
       pre:
 
     steps:
       - checkout
       - run: *install-node-dependencies
+      - run:
+          name: Download Dependencies
+          command: ./gradlew androidDependencies
       - run:
           name: Run Detox
           command: |
