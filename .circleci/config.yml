@@ -1,22 +1,19 @@
-reference:
-  android_config: &android_config
-    docker:
-      - image: circleci/android:api-28-node8-alpha
-  download_android_dependencies: &download_android_dependencies
-    run:
-      name: Download Android Dependencies
-      command: |
-        ls
-        cd android
-        ./gradlew androidDependencies
-        cd ../
 jobs:
   test-android:
-    <<: *android_config
+    <<: *defaults
+    docker:
+      - image: circleci/android:api-28-node8
+
   steps:
     - checkout
     - run: npm install
-    - *download_android_dependencies
+    - run:
+        name: Download Android Dependencies
+        command: |
+          ls
+          cd android
+          ./gradlew androidDependencies
+          cd ../
     - run: sdkmanager "system-images;android-25;google_apis;armeabi-v7a"
     - run: sdkmanager --licenses
     - run: echo "no" | avdmanager create avd -n testEmulator -k "system-images;android-25;google_apis;armeabi-v7a"
