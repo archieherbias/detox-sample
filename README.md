@@ -1,1 +1,1 @@
-# rn-travis-sample
+# detox-sample
