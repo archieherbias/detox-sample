@@ -37,7 +37,7 @@ jobs:
           command: yes | sdkmanager --licenses || true
       - run:
           name: Download Dependencies
-          command: ./gradlew androidDependencies
+          command: cd android && ./gradlew androidDependencies
       - run:
           name: Setup emulator
           command: sdkmanager "system-images;android-25;google_apis;armeabi-v7a" && echo "no" | avdmanager create avd -n testEmulator -k "system-images;android-25;google_apis;armeabi-v7a"
@@ -48,6 +48,7 @@ jobs:
       - run:
           name: Run Detox
           command: |
+            cd ../
             yarn detox:android:debug
 
 workflows:
