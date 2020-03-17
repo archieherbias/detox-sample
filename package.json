@@ -14,6 +14,13 @@
     "detox:ios:test:release": "detox test -c ios.sim.release",
     "detox:ios:debug": "yarn detox:ios:build:debug && yarn detox:ios:test:debug",
     "detox:ios:release": "yarn detox:clean && yarn detox:ios:build:release && yarn detox:ios:test:release",
+    "detox:android:dev": "detox test -c android.sim.debug --reuse",
+    "detox:android:build:debug": "detox build -c android.sim.debug",
+    "detox:android:build:release": "detox build -c android.sim.release",
+    "detox:android:test:debug": "detox test -c android.sim.debug",
+    "detox:android:test:release": "detox test -c android.sim.release",
+    "detox:android:debug": "yarn detox:android:build:debug && yarn detox:android:test:debug",
+    "detox:android:release": "yarn detox:android:build:release && yarn detox:android:test:release",
     "lint": "eslint ."
   },
   "dependencies": {
@@ -50,6 +57,22 @@
         "type": "ios.simulator",
         "device": {
           "type": "iPhone 8"
+        }
+      },
+      "android.sim.debug": {
+        "binaryPath": "android/app/build/outputs/apk/debug/app-debug.apk",
+        "build": "cd android && ./gradlew assembleDebug assembleAndroidTest -DtestBuildType=debug && cd ..",
+        "type": "android.emulator",
+        "device": {
+          "avdName": "Pixel_3a_XL_API_24"
+        }
+      },
+      "android.sim.release": {
+        "binaryPath": "android/app/build/outputs/apk/release/app-release.apk",
+        "build": "cd android && ./gradlew assembleRelease assembleAndroidTest -DtestBuildType=release && cd ..",
+        "type": "android.emulator",
+        "device": {
+          "avdName": "Pixel_3a_XL_API_24"
         }
       }
     },

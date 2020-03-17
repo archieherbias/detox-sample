@@ -2086,9 +2086,9 @@ detect-newline@^2.1.0:
   integrity sha1-9B8cEL5LAOh7XxPaaAdZ8sW/0+I=
 
 detox@^15.1.4:
-  version "15.1.4"
-  resolved "https://registry.yarnpkg.com/detox/-/detox-15.1.4.tgz#e459a39d4877ea4c582a886210aaac531c347e65"
-  integrity sha512-Clk6ceSkX5MM28eJCKJdRKSe+vesGe4OnRkEqpVshvH+Ce35/nBnyKDH0O4+qvoMJItOIZHi2Hn327b2+L81Gg==
+  version "15.5.0"
+  resolved "https://registry.yarnpkg.com/detox/-/detox-15.5.0.tgz#be6c259d90e117d7d2bf49abde076da568ebeb9a"
+  integrity sha512-PFuSvGAn9WtsCI54DbU8bxF9navuyTKwwFQmgMOKoOGP3g7JE56MCQMLQmcTMef48tJtxCwk3Fl36Zcifbacpg==
   dependencies:
     "@babel/core" "^7.4.5"
     bunyan "^1.8.12"

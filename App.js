@@ -15,18 +15,15 @@ import styles from './styles';
 export const WIZARDS = [
   {
     name: 'Dorothy of Wizard of Oz',
-    image:
-      'https://www.biography.com/.image/ar_16:9%2Cc_fill%2Ccs_srgb%2Cfl_progressive%2Cg_faces:center%2Cq_auto:good%2Cw_768/MTY1MzU5MTMyNDgyNzQxNTI4/judy-garland-1922---1969-as-dorothy-gale-in-the-wizard-of-oz-1939-photo-by-silver-screen-collection_hulton-archive_getty-images.jpg',
+    image: require('./images/dorothy.jpg'),
   },
   {
     name: 'Harry Potter',
-    image:
-      'https://vignette.wikia.nocookie.net/harrypotter/images/8/8d/PromoHP7_Harry_Potter.jpg/revision/latest?cb=20140603201724',
+    image: require('./images/harry.jpg'),
   },
   {
     name: 'Doctor Strange',
-    image:
-      'https://fsb.zobj.net/crop.php?r=xgii1X95lVrzaD-DrswSe-1e32mfKc_mTDoKzAwIuckdZ_miltpO0gUW-Z1YdMHDoWyuRj2IUcfVVQ73_eJHPGAi4ubCd5ZBxIO2AAZqG906mpAwN7IQ9LaW02GFiDNzqYat97G2kt2Gs_PovlJfxtvUkS6eItMC0x3r14fOS2Xi2AcNFy2rrKbbK_k',
+    image: require('./images/strange.jpg'),
   },
 ];
 
@@ -73,10 +70,7 @@ const App = () => {
                   onPress={selectWizard(wizard.name)}>
                   <Image
                     resizeMode="cover"
-                    source={{
-                      uri: wizard.image,
-                      cache: 'force-cache',
-                    }}
+                    source={wizard.image}
                     style={[
                       styles.image,
                       selectedWizard === wizard.name && styles.selectedImage,

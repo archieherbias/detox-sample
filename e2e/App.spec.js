@@ -65,10 +65,4 @@ describe('Example', () => {
       console.log('Button is disabled');
     }
   });
-
-  it('should display an activity loader when choose wizard button is tapped', async () => {
-    await element(by.id(`wizard-${WIZARDS[0].name}`)).tap();
-    await element(by.id('choose-wizard-button')).tap();
-    await expect(element(by.id('loading'))).toBeVisible();
-  });
 });
