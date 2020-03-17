@@ -33,8 +33,14 @@ jobs:
       - checkout
       - run: *install-node-dependencies
       - run:
+          name: Accept licenses
+          command: yes | sdkmanager --licenses || true
+      - run:
+          name: Download Dependencies
+          command: ./gradlew androidDependencies
+      - run:
           name: Setup emulator
-          command: sdkmanager "system-images;android-16;default;armeabi-v7a" && echo "no" | avdmanager create avd -n testEmulator -k "system-images;android-16;default;armeabi-v7a"
+          command: sdkmanager "system-images;android-25;google_apis;armeabi-v7a" && echo "no" | avdmanager create avd -n testEmulator -k "system-images;android-25;google_apis;armeabi-v7a"
       - run:
           name: Run Emulator
           background: true
