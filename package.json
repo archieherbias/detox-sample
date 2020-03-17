@@ -64,7 +64,7 @@
         "build": "cd android && ./gradlew assembleDebug assembleAndroidTest -DtestBuildType=debug && cd ..",
         "type": "android.emulator",
         "device": {
-          "avdName": "Pixel_3a_XL_API_24"
+          "avdName": "testEmulator"
         }
       },
       "android.sim.release": {
@@ -72,7 +72,7 @@
         "build": "cd android && ./gradlew assembleRelease assembleAndroidTest -DtestBuildType=release && cd ..",
         "type": "android.emulator",
         "device": {
-          "avdName": "Pixel_3a_XL_API_24"
+          "avdName": "testEmulator"
         }
       }
     },

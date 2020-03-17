@@ -1,26 +1,41 @@
+reference:
+  android_config: &android_config
+    docker:
+      - image: circleci/android:api-28-node8-alpha
+  download_android_dependencies: &download_android_dependencies
+    run:
+      name: Download Android Dependencies
+      command: |
+        ls
+        cd android
+        ./gradlew androidDependencies
+        cd ../
 jobs:
-  checkout_code:
-    executor: rn/linux_js
-    steps:
-      - checkout
-      - persist_to_workspace:
-          paths: .
-          root: .
-orbs:
-  rn: react-native-community/react-native@1.0.0
-version: 2.1
-
+  test-android:
+    <<: *android_config
+  steps:
+    - checkout
+    - run: npm install
+    - *download_android_dependencies
+    - run: sdkmanager "system-images;android-25;google_apis;armeabi-v7a"
+    - run: sdkmanager --licenses
+    - run: echo "no" | avdmanager create avd -n testEmulator -k "system-images;android-25;google_apis;armeabi-v7a"
+    - run:
+          name: Run emulator in background
+          command: |
+            sudo apt-get install libpulse0
+            export ANDROID_SDK_ROOT=${ANDROID_HOME}
+            export LD_LIBRARY_PATH=${ANDROID_HOME}:${ANDROID_HOME}/emulator/lib64:${ANDROID_HOME}/emulator/lib64/qt/lib emulator64-arm -avd testEmulator -noaudio -no-boot-anim -no-window -accel on -verbose -gpu swiftshader
+            background: true
+      - run: sudo npm install -g detox-cli
+      - run:
+          name: start pkg server
+          command: npm start
+          background: true
+      - run: detox build -c android.sim.debug
+      - run: detox test -c android.sim.debug -l trace
 workflows:
-  test:
+  version: 2
+  build:
     jobs:
-      - checkout_code
-      - rn/android_build:
-          build_type: debug
-          name: build_android_debug
-          project_path: android
-          requires:
-            - analyse_js
-      - rn/android_test:
-          detox_configuration: android.sim.debug
-          requires:
-            - build_android_debug
+      - test-android
