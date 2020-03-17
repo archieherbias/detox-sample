@@ -31,13 +31,11 @@ jobs:
 
     steps:
       - checkout
-      - run:
-          name: Load dependencies
-          command: |
-            npm install -g detox-cli
       - run: *install-node-dependencies
-      - run: detox build -c android.sim.debug
-      - run: detox test -c android.sim.debug
+      - run:
+          name: Run Detox
+          command: |
+            yarn detox:android:debug
 
 workflows:
   version: 2
