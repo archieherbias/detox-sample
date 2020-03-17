@@ -9,12 +9,6 @@ aliases:
     paths:
       - node_modules
 
-  - &save-ios-cache
-    key: v2-test-{{ .Branch }}-{{ checksum "package.json" }}
-    paths:
-      - node_modules
-      - ios/build
-
   - &install-node-dependencies |
     yarn
 
@@ -36,6 +30,7 @@ jobs:
     steps:
       - checkout
       - run: *install-node-dependencies
+      - run: sudo npm install -g detox-cli
       - run:
           name: Accept licenses
           command: yes | sdkmanager --licenses || true
