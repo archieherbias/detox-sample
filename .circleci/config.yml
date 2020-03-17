@@ -1,6 +1,5 @@
 jobs:
   test-android:
-    <<: *defaults
     docker:
       - image: circleci/android:api-28-node8
 
