@@ -26,6 +26,10 @@ jobs:
     <<: *defaults
     docker:
       - image: circleci/android:api-29-node
+    environment:
+      SKIP_OKBUCK: true
+      EXTRA_OKBUCK_ARGS: --stacktrace
+      JVM_OPTS: -Xmx3200m
     dependencies:
       pre:
 
@@ -46,11 +50,8 @@ jobs:
           background: true
           # command: export LD_LIBRARY_PATH=${ANDROID_HOME}/emulator/lib64:${ANDROID_HOME}/emulator/lib64/qt/lib && emulator64-arm -avd testEmulator -noaudio -no-boot-anim -no-window -accel auto -verbose
           command: emulator -avd testEmulator -noaudio -no-boot-anim -no-window -accel auto -verbose
-      - run:
-          name: Run Detox
-          command: |
-            cd ../
-            yarn detox:android:debug
+      - run: detox build -c android.sim.debug
+      - run: detox test -c android.sim.debug
 
 workflows:
   version: 2
