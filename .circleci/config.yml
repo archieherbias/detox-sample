@@ -1,3 +1,5 @@
+version: 2.1
+
 aliases:
   - &restore-cache
     keys:
@@ -14,35 +16,6 @@ aliases:
 
 defaults: &defaults
   working_directory: ~/detoxSample
-
-commands:
-  prepare_native_gradle_deps:
-    steps:
-      - run:
-          name: Download and prepare native dependencies via Gradle
-          command: ./gradlew prepareNative
-  create_emulator:
-    steps:
-      - run:
-          name: Create emulator
-          command: |
-            source ".circleci/scripts/.tests.env"
-            AVD_PACKAGES="system-images;android-19;google_apis;x86"
-            echo "Creating AVD with packages $AVD_PACKAGES"
-            echo no | avdmanager create avd --name emu --force --package "$AVD_PACKAGES" --tag google_apis --abi x86
-  launch_emulator:
-    steps:
-      - run:
-          name: Launch emulator
-          background: true
-          command: |
-            "$ANDROID_HOME/emulator/emulator" -avd emu -no-audio -no-window
-  wait_for_emulator:
-    steps:
-      - run:
-          name: Wait for emulator
-          command: |
-            ".circleci/scripts/wait_for_emulator.sh"
 
 jobs:
   test-android:
@@ -71,29 +44,24 @@ jobs:
       - run:
           name: Download Dependencies
           command: cd android && ./gradlew androidDependencies
-
-      - create_emulator
-      - launch_emulator
-      - prepare_native_gradle_deps
-      - wait_for_emulator
-      # - run:
-      #     name: Setup emulator
-      #     # command: |
-      #     #   sdkmanager "system-images;android-25;google_apis;armeabi-v7a" && echo "no" | avdmanager create avd -n testEmulator -k "system-images;android-25;google_apis;armeabi-v7a"
-      #     command: |
-      #       echo "y" | $ANDROID_HOME/tools/bin/sdkmanager --install "system-images;android-29;google_apis;x86"
-      #       echo "no" | $ANDROID_HOME/tools/bin/avdmanager create avd --force --name emu --device "Nexus 5X" -k 'system-images;android-29;google_apis;x86'
-      #       $ANDROID_HOME/emulator/emulator -list-avds
-      # - run:
-      #     name: Run Emulator
-      #     background: true
-      #     # command: emulator -avd testEmulator -noaudio -no-boot-anim -no-window -no-ui -accel auto -verbose
-      #     command: |
-      #       echo "Starting emulator"
-      #       nohup $ANDROID_HOME/emulator/emulator -avd emu -no-audio -no-snapshot -no-window &
-      #       $ANDROID_HOME/platform-tools/adb wait-for-device shell 'while [[ -z $(getprop sys.boot_completed | tr -d '\r') ]]; do sleep 1; done; input keyevent 82'
-      #       $ANDROID_HOME/platform-tools/adb devices
-      #       echo "Emulator started"
+      - run:
+          name: Setup emulator
+          # command: |
+          #   sdkmanager "system-images;android-25;google_apis;armeabi-v7a" && echo "no" | avdmanager create avd -n testEmulator -k "system-images;android-25;google_apis;armeabi-v7a"
+          command: |
+            echo "y" | $ANDROID_HOME/tools/bin/sdkmanager --install "system-images;android-29;google_apis;x86"
+            echo "no" | $ANDROID_HOME/tools/bin/avdmanager create avd --force --name emu --device "Nexus 5X" -k 'system-images;android-29;google_apis;x86'
+            $ANDROID_HOME/emulator/emulator -list-avds
+      - run:
+          name: Run Emulator
+          background: true
+          # command: emulator -avd testEmulator -noaudio -no-boot-anim -no-window -no-ui -accel auto -verbose
+          command: |
+            echo "Starting emulator"
+            nohup $ANDROID_HOME/emulator/emulator -avd emu -no-audio -no-snapshot -no-window &
+            $ANDROID_HOME/platform-tools/adb wait-for-device shell 'while [[ -z $(getprop sys.boot_completed | tr -d '\r') ]]; do sleep 1; done; input keyevent 82'
+            $ANDROID_HOME/platform-tools/adb devices
+            echo "Emulator started"
       - run: detox build -c android.sim.debug
       - run: detox test -c android.sim.debug
 
