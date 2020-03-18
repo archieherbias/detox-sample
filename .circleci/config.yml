@@ -1,0 +1,66 @@
+version: 2.1
+
+aliases:
+  - &restore-cache
+    keys:
+      - v2-test-{{ .Branch }}-{{ checksum "package.json" }}
+      - v2-test-{{ .Branch }}
+
+  - &save-node-cache
+    key: v2-test-{{ .Branch }}-{{ checksum "package.json" }}
+    paths:
+      - node_modules
+
+  - &install-node-dependencies |
+    yarn
+
+defaults: &defaults
+  working_directory: ~/detoxSample
+
+jobs:
+  test-android:
+    <<: *defaults
+    docker:
+      - image: circleci/android:api-29-node
+    environment:
+      SKIP_OKBUCK: true
+      EXTRA_OKBUCK_ARGS: --stacktrace
+      JVM_OPTS: -Xmx3200m
+
+    steps:
+      - checkout
+      - run: *install-node-dependencies
+      - run: sudo npm install -g detox-cli
+      - run:
+          name: Accept licenses
+          command: yes | sdkmanager --licenses || true
+      - run:
+          name: Download Dependencies
+          command: cd android && ./gradlew androidDependencies
+      - run:
+          name: Setup emulator
+          # command: |
+          #   sdkmanager "system-images;android-25;google_apis;armeabi-v7a" && echo "no" | avdmanager create avd -n testEmulator -k "system-images;android-25;google_apis;armeabi-v7a"
+          command: |
+            echo "y" | $ANDROID_HOME/tools/bin/sdkmanager --install "system-images;android-29;google_apis;x86"
+            echo "no" | $ANDROID_HOME/tools/bin/avdmanager create avd --force --name emu --device "Nexus 5X" -k 'system-images;android-29;google_apis;x86'
+            $ANDROID_HOME/emulator/emulator -list-avds
+      - run:
+          name: Run Emulator
+          background: true
+          # command: emulator -avd testEmulator -noaudio -no-boot-anim -no-window -no-ui -accel auto -verbose
+          command: |
+            echo "Starting emulator"
+            nohup $ANDROID_HOME/emulator/emulator -avd emu -no-audio -no-snapshot -no-boot-anim -no-window -accel auto -verbose &
+            $ANDROID_HOME/platform-tools/adb wait-for-device shell 'while [[ -z $(getprop sys.boot_completed | tr -d '\r') ]]; do sleep 1; done; input keyevent 82'
+            $ANDROID_HOME/platform-tools/adb devices
+            echo "Emulator started"
+      - run: detox build -c android.sim.debug
+      - run: detox test -c android.sim.debug
+
+workflows:
+  version: 2
+
+  build:
+    jobs:
+      - test-android

@@ -45,7 +45,7 @@
     "configurations": {
       "ios.sim.debug": {
         "binaryPath": "ios/build/Build/Products/Debug-iphonesimulator/detoxSample.app",
-        "build": "xcodebuild -workspace ios/detoxSample.xcworkspace -scheme detoxSample -configuration Debug -sdk iphonesimulator -derivedDataPath ios/build",
+        "build": "xcodebuild -workspace ios/detoxSample.xcworkspace -UseNewBuildSystem=NO -scheme detoxSample -configuration Debug -sdk iphonesimulator -derivedDataPath ios/build",
         "type": "ios.simulator",
         "device": {
           "type": "iPhone 8"
@@ -64,7 +64,7 @@
         "build": "cd android && ./gradlew assembleDebug assembleAndroidTest -DtestBuildType=debug && cd ..",
         "type": "android.emulator",
         "device": {
-          "avdName": "Pixel_3a_XL_API_24"
+          "avdName": "emu"
         }
       },
       "android.sim.release": {
@@ -72,7 +72,7 @@
         "build": "cd android && ./gradlew assembleRelease assembleAndroidTest -DtestBuildType=release && cd ..",
         "type": "android.emulator",
         "device": {
-          "avdName": "Pixel_3a_XL_API_24"
+          "avdName": "emu"
         }
       }
     },
