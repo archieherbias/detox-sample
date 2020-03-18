@@ -44,7 +44,7 @@ jobs:
       - run:
           name: Run Emulator
           background: true
-          command: emulator -avd testEmulator -noaudio -no-boot-anim -no-window -accel auto -skin WVGA800 -verbose
+          command: emulator -avd testEmulator -noaudio -no-boot-anim -no-window -no-ui -accel auto -verbose
       - run: detox build -c android.sim.debug
       - run: detox test -c android.sim.debug
 
