@@ -47,11 +47,11 @@ jobs:
             $ANDROID_HOME/emulator/emulator -list-avds
       - run:
           name: Run Emulator
-          # background: true
+          background: true
           # command: emulator -avd testEmulator -noaudio -no-boot-anim -no-window -no-ui -accel auto -verbose
           command: |
             echo "Starting emulator"
-            nohup $ANDROID_HOME/emulator/emulator -avd emu -no-audio -no-snapshot -no-window &
+            nohup $ANDROID_HOME/emulator/emulator -avd emu -no-audio -no-snapshot -no-boot-anim -no-window -accel auto -verbose &
             $ANDROID_HOME/platform-tools/adb wait-for-device shell 'while [[ -z $(getprop sys.boot_completed | tr -d '\r') ]]; do sleep 1; done; input keyevent 82'
             $ANDROID_HOME/platform-tools/adb devices
             echo "Emulator started"
