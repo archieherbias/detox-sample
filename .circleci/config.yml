@@ -26,8 +26,6 @@ jobs:
       SKIP_OKBUCK: true
       EXTRA_OKBUCK_ARGS: --stacktrace
       JVM_OPTS: -Xmx3200m
-    dependencies:
-      pre:
 
     steps:
       - checkout
