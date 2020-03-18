@@ -47,7 +47,7 @@ jobs:
             $ANDROID_HOME/emulator/emulator -list-avds
       - run:
           name: Run Emulator
-          background: true
+          # background: true
           # command: emulator -avd testEmulator -noaudio -no-boot-anim -no-window -no-ui -accel auto -verbose
           command: |
             echo "Starting emulator"
