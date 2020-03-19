@@ -44,4 +44,5 @@ jobs:
           $ANDROID_HOME/platform-tools/adb devices
           echo "Emulator started"
       - name: Android Detox
+        timeout-minutes: 30
         run: yarn start & yarn detox:android:test:release
