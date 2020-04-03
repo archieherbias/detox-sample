@@ -49,7 +49,7 @@
         "build": "xcodebuild -workspace ios/detoxSample.xcworkspace -scheme detoxSample -configuration Debug -sdk iphonesimulator -derivedDataPath ios/build",
         "type": "ios.simulator",
         "device": {
-          "type": "iPhone 8"
+          "type": "iPhone 11"
         }
       },
       "ios.sim.release": {
@@ -57,7 +57,7 @@
         "build": "xcodebuild -workspace ios/detoxSample.xcworkspace -UseNewBuildSystem=NO -scheme detoxSample -configuration Release -sdk iphonesimulator -derivedDataPath ios/build",
         "type": "ios.simulator",
         "device": {
-          "type": "iPhone 8"
+          "type": "iPhone 11"
         }
       },
       "android.sim.debug": {
