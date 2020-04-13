@@ -65,7 +65,7 @@
         "build": "cd android && ./gradlew assembleDebug assembleAndroidTest -DtestBuildType=debug && cd ..",
         "type": "android.emulator",
         "device": {
-          "avdName": "emu"
+          "avdName": "emulator"
         }
       },
       "android.sim.release": {
@@ -73,7 +73,7 @@
         "build": "cd android && ./gradlew assembleRelease assembleAndroidTest -DtestBuildType=release && cd ..",
         "type": "android.emulator",
         "device": {
-          "avdName": "emu"
+          "avdName": "emulator"
         }
       }
     },
